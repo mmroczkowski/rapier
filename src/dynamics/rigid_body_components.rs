@@ -1163,7 +1163,7 @@ impl RigidBodyCcd {
         // 2D: |sin(Δθ)| · maxExtent; 3D: 2·|Δq.v| · maxExtent ≈ Δθ · maxExtent.
         let delta_rot = pos.next_position.rotation * pos.position.rotation.inverse();
         #[cfg(feature = "dim2")]
-        let angular_delta = delta_rot.sin().abs() * max_extent;
+        let angular_delta = simba::scalar::ComplexField::sin(delta_rot).abs() * max_extent;
         #[cfg(feature = "dim3")]
         let angular_delta =
             2.0 * Vector::new(delta_rot.x, delta_rot.y, delta_rot.z).length() * max_extent;

@@ -393,7 +393,7 @@ pub(crate) fn relative_pose_drift(base: &Pose, cur: &Pose, max_extent: Real) -> 
     let rot_chord = {
         // To avoid explicit trigonometric functions, use the identity:
         // `sin(Δθ/2) = |sin Δθ| / sqrt(2(1 + cos Δθ))`
-        let (sin, cos) = (delta_rot.sin(), delta_rot.cos());
+        let (sin, cos) = (simba::scalar::ComplexField::sin(delta_rot), simba::scalar::ComplexField::cos(delta_rot));
         let denom = 2.0 * (1.0 + cos);
         let half_sin = if denom > 1.0e-6 {
             sin.abs() / denom.sqrt()
